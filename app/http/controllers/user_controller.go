@@ -24,8 +24,18 @@ func (r *UserController) Index(ctx http.Context) http.Response {
 }
 
 func (r *UserController) Show(ctx http.Context) http.Response {
+	id := ctx.Request().Input("id")
+	user := userService.NewUserService()
+	userInformation, err := user.GetById(id)
+
+	if err != nil {
+		return ctx.Response().Status(404).Json(http.Json{
+			"message": err.Error(),
+		})
+	}
+
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": "Goravel",
+		"message": userInformation,
 	})
 }
 

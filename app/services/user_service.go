@@ -33,3 +33,15 @@ func (r *UserService) Store(name string, username string, password string, cpf s
 	user := repository.Store(name, username, password, cpf, email)
 	return user, nil
 }
+
+func (r *UserService) GetById(id string) (models.User, error) {
+	repository := userRepository.NewUserRepository()
+
+	user := repository.FindBy("ID", id)
+
+	if user.ID == 0 {
+		return models.User{}, errors.New("Usuário não encontrado!")
+	}
+
+	return user, nil
+}
