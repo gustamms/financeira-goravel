@@ -34,3 +34,9 @@ func (r *UserRepository) FindBy(field string, value string) models.User {
 	facades.Orm().Query().Where(field, value).Get(&users)
 	return users
 }
+
+func (r *UserRepository) DeleteBy(field string, value string) models.User {
+	var users models.User
+	facades.Orm().Query().Where(field, value).Delete(&users)
+	return users
+}

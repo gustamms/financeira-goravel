@@ -45,3 +45,23 @@ func (r *UserService) GetById(id string) (models.User, error) {
 
 	return user, nil
 }
+
+func (r *UserService) DeleteById(id string) (bool, error) {
+	repository := userRepository.NewUserRepository()
+
+	user := repository.FindBy("ID", id)
+
+	if user.ID == 0 {
+		return false, errors.New("Usuário não encontrado!")
+	}
+
+	repository.DeleteBy("ID", id)
+
+	user = repository.FindBy("ID", id)
+
+	if user.ID != 0 {
+		return false, errors.New("Erro ao excluir conta!")
+	}
+
+	return true, nil
+}

@@ -81,7 +81,17 @@ func (r *UserController) Update(ctx http.Context) http.Response {
 }
 
 func (r *UserController) Destroy(ctx http.Context) http.Response {
+	id := ctx.Request().Input("id")
+	user := userService.NewUserService()
+	deleteConfirmation, err := user.DeleteById(id)
+
+	if deleteConfirmation == false {
+		return ctx.Response().Status(400).Json(http.Json{
+			"message": err.Error(),
+		})
+	}
+
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": "Goravel",
+		"message": "Sucesso!",
 	})
 }
