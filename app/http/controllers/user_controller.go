@@ -51,10 +51,16 @@ func (r *UserController) Store(ctx http.Context) http.Response {
 	email := ctx.Request().Input("email")
 
 	user := userService.NewUserService()
-	userInformation := user.Store(name, username, password, cpf, email)
+	userInformation, err := user.Store(name, username, password, cpf, email)
+
+	if err != nil {
+		return ctx.Response().Status(400).Json(http.Json{
+			"message": err.Error(),
+		})
+	}
 
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": userInformation,
+		"message": userInformation,
 	})
 }
 

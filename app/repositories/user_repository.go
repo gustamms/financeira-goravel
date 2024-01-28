@@ -25,6 +25,12 @@ func (r *UserRepository) Store(name string, username string, password string, cp
 		Email:    email,
 	}
 
-	facades.Orm().Query().Where("username", username).FirstOrCreate(&user, user)
+	facades.Orm().Query().Where("cpf", cpf).FirstOrCreate(&user, user)
 	return user
+}
+
+func (r *UserRepository) FindBy(field string, value string) models.User {
+	var users models.User
+	facades.Orm().Query().Where(field, value).Get(&users)
+	return users
 }
