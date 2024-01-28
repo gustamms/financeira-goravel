@@ -4,15 +4,11 @@ import (
 	"github.com/goravel/framework/database/orm"
 )
 
-type User struct {
+type Companie struct {
 	orm.Model
 	Name     string
 	Username string
 	Password string
-	CPF      string
+	CNPJ     string
 	Email    string
-}
-
-func (r *User) TableName() string {
-	return "consumers"
 }
