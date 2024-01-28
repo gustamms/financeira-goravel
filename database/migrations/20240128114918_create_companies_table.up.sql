@@ -7,6 +7,7 @@ CREATE TABLE companies (
   username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   cnpj VARCHAR(14) NOT NULL,
+  email VARCHAR(255) NOT NULL,
   KEY idx_companies_created_at (created_at),
   KEY idx_companies_updated_at (updated_at)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
