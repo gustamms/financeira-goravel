@@ -16,6 +16,12 @@ func NewUserRepository() *UserRepository {
 	}
 }
 
+func (r *UserRepository) GetAll() ([]models.User, error) {
+	var users []models.User
+	facades.Orm().Query().Find(&users)
+	return users, nil
+}
+
 func (r *UserRepository) Store(name string, username string, password string, cpf string, email string) models.User {
 	user := models.User{
 		Name:     name,
@@ -39,4 +45,9 @@ func (r *UserRepository) DeleteBy(field string, value string) models.User {
 	var users models.User
 	facades.Orm().Query().Where(field, value).Delete(&users)
 	return users
+}
+
+func (r *UserRepository) Save(user models.User) models.User {
+	facades.Orm().Query().Save(user)
+	return user
 }

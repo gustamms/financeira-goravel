@@ -18,8 +18,17 @@ func NewUserController() *UserController {
 }
 
 func (r *UserController) Index(ctx http.Context) http.Response {
+	user := userService.NewUserService()
+	userInformation, err := user.GetAll()
+
+	if err != nil {
+		return ctx.Response().Status(404).Json(http.Json{
+			"message": err.Error(),
+		})
+	}
+
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": "Goravel",
+		"message": userInformation,
 	})
 }
 
@@ -75,8 +84,18 @@ func (r *UserController) Store(ctx http.Context) http.Response {
 }
 
 func (r *UserController) Update(ctx http.Context) http.Response {
+	id := ctx.Request().Input("id")
+	name := ctx.Request().Input("name")
+	username := ctx.Request().Input("username")
+	password := ctx.Request().Input("password")
+	cpf := ctx.Request().Input("cpf")
+	email := ctx.Request().Input("email")
+
+	user := userService.NewUserService()
+	userInformation := user.Update(id, name, username, password, cpf, email)
+
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": "Goravel",
+		"message": userInformation,
 	})
 }
 

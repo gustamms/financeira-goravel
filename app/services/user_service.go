@@ -17,6 +17,11 @@ func NewUserService() *UserService {
 	}
 }
 
+func (r *UserService) GetAll() ([]models.User, error) {
+	repository := userRepository.NewUserRepository()
+	return repository.GetAll()
+}
+
 func (r *UserService) Store(name string, username string, password string, cpf string, email string) (models.User, error) {
 	repository := userRepository.NewUserRepository()
 
@@ -64,4 +69,30 @@ func (r *UserService) DeleteById(id string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func (r *UserService) Update(id string, name string, username string, password string, cpf string, email string) models.User {
+	repository := userRepository.NewUserRepository()
+
+	user := repository.FindBy("ID", id)
+
+	if name != "" {
+		user.Name = name
+	}
+	if username != "" {
+		user.Username = username
+	}
+	if password != "" {
+		user.Password = password
+	}
+	if cpf != "" {
+		user.CPF = cpf
+	}
+	if email != "" {
+		user.Email = email
+	}
+
+	user = repository.Save(user)
+
+	return user
 }
